@@ -9,8 +9,8 @@ dotenv.config();
 connectDB();
 const app = express();
 const allowedOrigins = [
-  "http://localhost:8080", // Local frontend (for development)
-  "https://doit-prebooking-test.vercel.app",
+  "https://doit-front.netlify.app/", // Local frontend (for development)
+  // "https://doit-prebooking-test.vercel.app",
    // Production frontend
 ];
 
