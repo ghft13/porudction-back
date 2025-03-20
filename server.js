@@ -10,7 +10,7 @@ connectDB();
 const app = express();
 const allowedOrigins = [
   "https://doit-front.netlify.app", // Local frontend (for development)
-  "https://production-front.vercel.app/",
+  "https://production-front.vercel.app",
  
 ];
 
