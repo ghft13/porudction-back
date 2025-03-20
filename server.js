@@ -11,7 +11,7 @@ const app = express();
 const allowedOrigins = [
   "https://doit-front.netlify.app", // Local frontend (for development)
   "https://production-front.vercel.app",
- 
+ "https://d0lt.com"
 ];
 
 app.use(
