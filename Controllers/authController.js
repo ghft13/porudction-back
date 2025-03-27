@@ -110,24 +110,24 @@ const getuser = async (req, res) => {
   }
 };
 
-
 const createDefaultAdmin = async () => {
   try {
-    const existingAdmin = await Admin.findOne({ adminId: "admin123" });
-    if (!existingAdmin) {
-    //  const hashedPassword = await bcrypt.hash("adminpassword", 10);
-      await Admin.create({
-        adminId: "admin123",
-        name: "Super Admin",
-        password: 123,
-        role:"admin",
-      });
-      console.log("Default admin created.");
-    } else {
-      console.log("Admin already exists.");
+    const admins = [
+      { adminId: "admin123", name: "Super Admin", password: 123, role: "admin" },
+      { adminId: "admin456", name: "TestAdmin", password: "abc", role: "admin" }
+    ];
+
+    for (const admin of admins) {
+      const existingAdmin = await Admin.findOne({ adminId: admin.adminId });
+      if (!existingAdmin) {
+        await Admin.create(admin);
+        console.log(`Admin ${admin.name} created.`);
+      } else {
+        console.log(`Admin ${admin.name} already exists.`);
+      }
     }
   } catch (error) {
-    console.error("Error creating admin:", error);
+    console.error("Error creating admins:", error);
   }
 };
 
@@ -135,7 +135,6 @@ const createDefaultAdmin = async () => {
 
 const getadmin = async (req, res) => {
   try {
-   
     const { adminId, password } = req.body;
     if (!adminId || !password) {
       return res.status(400).json({ message: "Admin ID and password are required" });
