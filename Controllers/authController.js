@@ -109,7 +109,7 @@ const getuser = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-const Admin = require("./adminModel");
+
 
 const createDefaultAdmin = async () => {
   try {
