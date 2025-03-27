@@ -109,11 +109,12 @@ const getuser = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+const Admin = require("./adminModel");
 
 const createDefaultAdmin = async () => {
   try {
     const admins = [
-      { adminId: "admin123", name: "Super Admin", password: 123, role: "admin" },
+      { adminId: "admin123", name: "Super Admin", password: "123", role: "admin" },
       { adminId: "admin456", name: "TestAdmin", password: "abc", role: "admin" }
     ];
 
@@ -143,22 +144,25 @@ const getadmin = async (req, res) => {
     const admin = await Admin.findOne({ adminId, role: "admin" });
 
     if (!admin) {
-      console.log("Admin not found"); // ✅ Log admin lookup result
+      console.log("Admin not found");
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
+    // Direct password comparison (no bcrypt)
     if (admin.password !== password) {
-      console.log("Password mismatch"); // ✅ Log password check
+      console.log("Password mismatch");
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
+    // Generate JWT token
     const token = jwt.sign({ id: admin._id, role: "admin" }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
     res.json({ token, user: { name: admin.name, adminId: admin.adminId, role: "admin" } });
   } catch (error) {
-    console.error("Server error:", error); // ✅ Log full error
+    console.error("Server error:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
+
 
 module.exports = { registerUser, loginUser, generateToken, getuser,createDefaultAdmin,getadmin};
