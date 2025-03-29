@@ -35,9 +35,9 @@ app.get("/", function (req, res) {
 });
 
 app.use("/api/auth", authRoutes);
- app.use("/api", PayPalRoutes);
+//  app.use("/api", PayPalRoutes);
 app.listen(process.env.PORT || 5000, async () => {
   console.log(`server is running on ${process.env.PORT}`);
   await createDefaultAdmin();
-  await InsertServices()
+  // await InsertServices()
 });
