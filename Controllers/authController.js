@@ -110,12 +110,11 @@ const getuser = async (req, res) => {
   }
 };
 
-
 const createDefaultAdmin = async () => {
   try {
     const admins = [
       { adminId: "admin123", name: "Super Admin", password: "123", role: "admin" },
-      { adminId: "admin456", name: "TestAdmin", password: "abc", role: "admin" }
+      { adminId: "admin456", name: "TestAdmin", password: "456", role: "admin" }
     ];
 
     for (const admin of admins) {
@@ -127,6 +126,10 @@ const createDefaultAdmin = async () => {
         console.log(`Admin ${admin.name} already exists.`);
       }
     }
+
+    const allAdmins = await Admin.find({});
+    console.log("All Admins in Database After Creation:", allAdmins);
+
   } catch (error) {
     console.error("Error creating admins:", error);
   }

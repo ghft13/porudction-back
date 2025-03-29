@@ -4,7 +4,8 @@ const connectDB = require("./Config/Db.js");
 const cors = require("cors");
 const authRoutes = require("./Routes/authRoutes.js");
 const { createDefaultAdmin } = require("./Controllers/authController.js");
-// const PayPalRoutes = require("./Routes/Paypal.js");
+const InsertServices=require('./Data/ServiceData.js')
+const PayPalRoutes = require("./Routes/Paypal.js");
 dotenv.config();
 
 
@@ -34,8 +35,9 @@ app.get("/", function (req, res) {
 });
 
 app.use("/api/auth", authRoutes);
-// app.use("/api", PayPalRoutes);
+ app.use("/api", PayPalRoutes);
 app.listen(process.env.PORT || 5000, async () => {
   console.log(`server is running on ${process.env.PORT}`);
   await createDefaultAdmin();
+  await InsertServices()
 });

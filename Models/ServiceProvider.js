@@ -5,6 +5,10 @@ const ServiceProviderSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   mobnumber: { type: String, required: true, unique: true }, 
+  total_clients:{type:Number,default:0},
+  total_Appointments:{type:Number,default:0},
+  earnings:{type:Number,default:0},
+  Rating:{type:Number,default:0},
   role: { type: String, enum: ['provider'], default: 'provider' },
  
 },
