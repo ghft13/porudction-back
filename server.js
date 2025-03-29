@@ -4,8 +4,8 @@ const connectDB = require("./Config/Db.js");
 const cors = require("cors");
 const authRoutes = require("./Routes/authRoutes.js");
 const { createDefaultAdmin } = require("./Controllers/authController.js");
-const InsertServices=require('./Data/ServiceData.js')
-const PayPalRoutes = require("./Routes/Paypal.js");
+// const InsertServices=require('./Data/ServiceData.js')
+// const PayPalRoutes = require("./Routes/Paypal.js");
 dotenv.config();
 
 
