@@ -110,17 +110,22 @@ const getuser = async (req, res) => {
   }
 };
 
+
 const createDefaultAdmin = async () => {
   try {
     const admins = [
       { adminId: "admin123", name: "Super Admin", password: "123", role: "admin" },
-      { adminId: "admin456", name: "TestAdmin", password: "456", role: "admin" }
+      { adminId: "admin456", name: "TestAdmin", password: "abc", role: "admin" }
     ];
 
     for (const admin of admins) {
       const existingAdmin = await Admin.findOne({ adminId: admin.adminId });
+
       if (!existingAdmin) {
-        await Admin.create(admin);
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(admin.password, saltRounds);
+
+        await Admin.create({ ...admin, password: hashedPassword });
         console.log(`Admin ${admin.name} created.`);
       } else {
         console.log(`Admin ${admin.name} already exists.`);
@@ -134,7 +139,6 @@ const createDefaultAdmin = async () => {
     console.error("Error creating admins:", error);
   }
 };
-
 
 
 const getadmin = async (req, res) => {
@@ -151,14 +155,15 @@ const getadmin = async (req, res) => {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    // Direct password comparison (no bcrypt)
-    if (admin.password !== password) {
+    // Compare hashed password
+    const isMatch = await bcrypt.compare(password, admin.password);
+    if (!isMatch) {
       console.log("Password mismatch");
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
     // Generate JWT token
-    const token = jwt.sign({ id: admin._id, role: "admin" }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ id: admin._id, role: "admin" }, process.env.JWT_SECRET, { expiresIn: "12h" });
 
     res.json({ token, user: { name: admin.name, adminId: admin.adminId, role: "admin" } });
   } catch (error) {
